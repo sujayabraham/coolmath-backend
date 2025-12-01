@@ -1,4 +1,3 @@
-# models/database.py
 import databases
 import sqlalchemy
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -12,11 +11,10 @@ if not DATABASE_URL:
     raise Exception("DATABASE_URL not set!")
 
 database = databases.Database(DATABASE_URL)
-engine = create_async_engine(DATABASE_URL, echo=False, future=True)
+engine = create_async_engine(DATABASE_URL, future=True)
 
 metadata = sqlalchemy.MetaData()
 
-# Tables
 devices = sqlalchemy.Table("devices", metadata,
                            sqlalchemy.Column("id", sqlalchemy.String(64), primary_key=True),
                            sqlalchemy.Column("email", sqlalchemy.String(255), unique=True, nullable=True),
@@ -25,7 +23,6 @@ devices = sqlalchemy.Table("devices", metadata,
                            sqlalchemy.Column("is_lifetime", sqlalchemy.Boolean, default=False),
                            sqlalchemy.Column("trial_end", sqlalchemy.DateTime, nullable=True),
                            sqlalchemy.Column("created_at", sqlalchemy.DateTime, server_default=sqlalchemy.func.now()),
-                           sqlalchemy.Column("updated_at", sqlalchemy.DateTime, server_default=sqlalchemy.func.now(), onupdate=sqlalchemy.func.now()),
                            )
 
 payments = sqlalchemy.Table("payments", metadata,
@@ -40,6 +37,7 @@ support_tickets = sqlalchemy.Table("support_tickets", metadata,
                                    sqlalchemy.Column("device_id", sqlalchemy.String(64), index=True),
                                    sqlalchemy.Column("name", sqlalchemy.String(100)),
                                    sqlalchemy.Column("email", sqlalchemy.String(255)),
+                                   sqlalchemy.Column("phone", sqlalchemy.String(15), nullable=True),
                                    sqlalchemy.Column("message", sqlalchemy.Text),
                                    sqlalchemy.Column("status", sqlalchemy.String(20), default="pending"),
                                    sqlalchemy.Column("created_at", sqlalchemy.DateTime, server_default=sqlalchemy.func.now()),

@@ -1,22 +1,14 @@
-# routers/support.py
 from fastapi import APIRouter, Header
-from models.database import tickets, database
+from models.database import support_tickets, database
 
 router = APIRouter()
 
 @router.post("/submit-enquiry")
-async def submit_support(
-    name: str,
-    email: str,
-    phone: str,
-    message: str,
-    device_id: str = Header(..., alias="Device-ID")
+async def submit_enquiry(
+        name: str, email: str, phone: str = None, message: str = "",
+        device_id: str = Header(..., alias="Device-ID")
 ):
-    await database.execute(tickets.insert().values(
-        device_id=device_id,
-        name=name,
-        email=email,
-        phone=phone,
-        message=message
+    await database.execute(support_tickets.insert().values(
+        device_id=device_id, name=name, email=email, phone=phone, message=message
     ))
     return {"message": "Thank you! We'll reply within 24 hours"}
