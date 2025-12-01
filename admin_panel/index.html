@@ -1,46 +1,31 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>CoolMath Pro Admin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
-</head>
-<body class="bg-gray-100 font-['Inter']">
-<div class="max-w-7xl mx-auto p-6">
-    <h1 class="text-4xl font-bold text-purple-700 mb-8">CoolMath Pro Admin Panel</h1>
-
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
-        <div class="bg-white p-6 rounded-2xl shadow-lg"><p class="text-gray-600">Total Users</p><p id="total" class="text-4xl font-bold text-purple-600">-</p></div>
-        <div class="bg-white pÖ-6 rounded-2xl shadow-lg"><p class="text-gray-600">Active Trials</p><p id="trial" class="text-4xl font-bold text-blue-600">-</p></div>
-        <div class="bg-white p-6 rounded-2xl shadow-lg"><p class="text-gray-600">Paid Users</p><p id="paid" class="text-4xl font-bold text-green-600">-</p></div>
-        <div class="bg-white p-6 rounded-2xl shadow-lg"><p class="text-gray-600">Revenue</p><p id="revenue" class="text-4xl font-bold text-indigo-600">₹-</p></div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="bg-white rounded-2xl shadow-lg p-6">
-            <h2 class="text-2xl font-bold mb-4">Recent Payments</h2>
-            <div id="payments"></div>
+<html><head><title>CoolMath Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gradient-to-br from-purple-600 to-blue-600 min-h-screen">
+<div class="container mx-auto p-8 text-white">
+    <h1 class="text-5xl font-bold mb-8 text-center">CoolMath Pro Admin</h1>
+    <div class="grid grid-cols-4 gap-6">
+        <div class="bg-white/20 p-8 rounded-2xl text-center">
+            <p class="text-4xl font-bold" id="total">—</p><p>Total Users</p>
         </div>
-        <div class="bg-white rounded-2xl shadow-lg p-6">
-            <h2 class="text-2xl font-bold mb-4">Support Tickets</h2>
-            <div id="tickets"></div>
+        <div class="bg-white/20 p-8 rounded-2xl text-center">
+            <p class="text-4xl font-bold text-green-300" id="paid">—</p><p>Paid</p>
+        </div>
+        <div class="bg-white/20 p-8 rounded-2xl text-center">
+            <p class="text-4xl font-bold text-yellow-300" id="trial">—</p><p>Trial</p>
+        </div>
+        <div class="bg-white/20 p-8 rounded-2xl text-center">
+            <p class="text-4xl font-bold text-pink-300" id="revenue">₹—</p><p>Revenue</p>
         </div>
     </div>
 </div>
-
 <script>
-    async function loadData() {
-      const res = await fetch('/api/admin/stats');
-      const data = await res.json();
-      document.getElementById('total').textContent = data.total_users;
-      document.getElementById('trial').textContent = data.trial_active;
-      document.getElementById('paid').textContent = data.lifetime;
-      document.getElementById('revenue').textContent = `₹${data.revenue.toLocaleString()}`;
-
-      // Load tables...
+    async function load(){const r=await fetch('/api/admin/stats');const d=await r.json();
+      document.getElementById('total').textContent=d.total_users;
+      document.getElementById('paid').textContent=d.lifetime;
+      document.getElementById('trial').textContent=d.trial_active;
+      document.getElementById('revenue').textContent='₹'+d.revenue.toLocaleString();
     }
-    loadData(); setInterval(loadData, 30000);
+    load(); setInterval(load,30000);
 </script>
-</body>
-</html>
+</body></html>
