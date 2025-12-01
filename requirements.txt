@@ -5,6 +5,5 @@ sqlalchemy[asyncio]==2.0.35
 pydantic==2.9.2                 # ← NO [email] needed now!
 python-jose[cryptography]
 passlib[bcrypt]
-python-multipart
 razorpay
-python-dotenv
+python-multipart
